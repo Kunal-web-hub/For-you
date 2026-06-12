@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kannu — Sirf Tere Liye 💕</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--pink:#ff2d78;--dpink:#c0004a;--light:#ffb3d9;--bg:#0d0010;}
+body{font-family:'Georgia',serif;background:var(--bg);min-height:100vh;overflow-x:hidden;}
+
+/* ---- SCREEN SYSTEM ---- */
+.screen{display:none;min-height:100vh;width:100%;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.screen.active{display:flex;}
+
+/* ---- PARTICLES ---- */
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+
+/* ---- SCREEN 1: INTRO ---- */
+#s1{background:linear-gradient(160deg,#0d0010,#2a0030,#0d0010);padding:40px 24px;}
+.kannu-name{font-size:clamp(52px,14vw,110px);font-style:italic;font-weight:700;background:linear-gradient(135deg,#ff6eb4,#fff,#ff2d78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;line-height:1;margin-bottom:8px;animation:fadedown 1.2s ease both;}
+.kannu-sub{font-size:clamp(13px,3vw,18px);color:#ffb3d9;text-align:center;letter-spacing:4px;text-transform:uppercase;margin-bottom:48px;animation:fadedown 1.4s ease both;opacity:0.85;}
+@keyframes fadedown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+
+/* couple illustration area */
+.couple-wrap{position:relative;width:340px;max-width:90vw;height:300px;margin-bottom:36px;animation:fadein 1.6s ease both;}
+@keyframes fadein{from{opacity:0;}to{opacity:1;}}
+
+/* scroll hint */
+.scroll-hint{color:#ff9dd4;font-size:13px;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s ease-in-out infinite;cursor:pointer;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
+
+/* ---- SCREEN 2: LETTER ---- */
+#s2{background:linear-gradient(160deg,#12001a,#2d0040,#0d0015);padding:50px 24px;}
+.letter-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,110,180,0.3);border-radius:28px;padding:36px 30px;max-width:580px;width:100%;position:relative;z-index:2;}
+.letter-line{font-size:clamp(15px,2.8vw,19px);color:#ffe8f4;line-height:2;margin-bottom:18px;opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.letter-line.show{opacity:1;transform:translateY(0);}
+.letter-line.hl{color:#ff9dd4;font-style:italic;font-size:clamp(16px,3vw,21px);}
+.letter-sign{font-size:clamp(14px,2.5vw,17px);color:#ff6eb4;margin-top:12px;font-style:italic;opacity:0;transition:opacity 1s ease;}
+.letter-sign.show{opacity:1;}
+
+/* ---- SCREEN 3: MOMENTS ---- */
+#s3{background:linear-gradient(160deg,#0a000f,#250030,#0a000f);padding:50px 24px;}
+.moments-title{font-size:clamp(22px,5vw,40px);color:#fff;font-style:italic;text-align:center;margin-bottom:40px;text-shadow:0 0 30px rgba(255,100,180,0.7);}
+.moments-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:560px;width:100%;}
+.moment-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,100,180,0.25);border-radius:20px;padding:24px 18px;text-align:center;transform:scale(0.9);opacity:0;transition:all 0.6s ease;}
+.moment-card.show{transform:scale(1);opacity:1;}
+.moment-icon{font-size:36px;margin-bottom:12px;display:block;}
+.moment-card h3{color:#ff9dd4;font-size:clamp(13px,2.5vw,16px);margin-bottom:8px;font-style:italic;}
+.moment-card p{color:#ffcce8;font-size:clamp(11px,2vw,13px);line-height:1.7;opacity:0.85;}
+
+/* ---- SCREEN 4: QUESTION ---- */
+#s4{background:linear-gradient(160deg,#0d0010,#2a0030,#0d0010);padding:50px 24px;}
+.q-title{font-size:clamp(24px,5.5vw,46px);color:#fff;font-style:italic;font-weight:700;text-align:center;text-shadow:0 0 30px rgba(255,100,180,0.8);margin-bottom:16px;line-height:1.3;}
+.q-sub{font-size:clamp(14px,2.8vw,18px);color:#ffb3d9;text-align:center;margin-bottom:44px;line-height:1.8;max-width:500px;}
+.q-btn{background:linear-gradient(135deg,#ff3a8c,#ff0055);color:white;border:none;padding:18px 50px;font-size:clamp(18px,4vw,24px);font-family:Georgia,serif;font-style:italic;border-radius:50px;cursor:pointer;box-shadow:0 6px 30px rgba(255,0,80,0.5);animation:pulseBtn 2s ease-in-out infinite;margin-bottom:16px;width:100%;max-width:300px;}
+@keyframes pulseBtn{0%,100%{transform:scale(1);box-shadow:0 6px 30px rgba(255,0,80,0.5);}50%{transform:scale(1.04);box-shadow:0 10px 50px rgba(255,0,80,0.8);}}
+.q-btn:hover{transform:scale(1.06)!important;}
+
+/* ---- SCREEN 5: YES ---- */
+#s5{background:linear-gradient(160deg,#0a0015,#1e0035,#0a0015);padding:40px 24px;}
+.yes-ring{font-size:80px;animation:ringpop 0.6s cubic-bezier(0.36,0.07,0.19,0.97) both;margin-bottom:16px;}
+@keyframes ringpop{0%{transform:scale(0) rotate(-20deg);}60%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
+.yes-title{font-size:clamp(30px,7vw,60px);color:#fff;font-style:italic;text-shadow:0 0 40px rgba(255,120,180,1);margin-bottom:20px;text-align:center;}
+.yes-msg{color:#ffcce8;font-size:clamp(15px,3vw,20px);line-height:1.9;max-width:500px;text-align:center;}
+.yes-hearts{display:flex;gap:16px;margin-top:28px;font-size:32px;animation:pulseheart 1s ease-in-out infinite;}
+@keyframes pulseheart{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+
+/* BALLOONS */
+.balloon-cont{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:hidden;}
+.bal{position:absolute;bottom:-150px;animation:floatup linear forwards;}
+@keyframes floatup{0%{bottom:-150px;opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{bottom:110vh;opacity:0;}}
+
+/* NAV DOTS */
+.nav-dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:100;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,110,180,0.3);cursor:pointer;transition:all 0.3s;}
+.dot.active{background:#ff2d78;transform:scale(1.4);}
+
+/* PROGRESS BAR */
+.prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#ff2d78,#ff9dd4);z-index:200;transition:width 0.4s ease;}
+
+/* NEXT BTN */
+.next-btn{background:transparent;border:1.5px solid rgba(255,110,180,0.5);color:#ffb3d9;padding:12px 32px;font-size:14px;font-family:Georgia,serif;font-style:italic;border-radius:50px;cursor:pointer;margin-top:28px;transition:all 0.2s;position:relative;z-index:2;}
+.next-btn:hover{background:rgba(255,45,120,0.15);border-color:#ff2d78;color:#fff;}
+
+/* FLOATING HEARTS anim */
+.fheart{position:absolute;pointer-events:none;animation:floatheart ease-in-out infinite;}
+@keyframes floatheart{0%,100%{transform:translateY(0) rotate(-5deg);}50%{transform:translateY(-18px) rotate(5deg);}}
+
+@media(max-width:480px){.moments-grid{grid-template-columns:1fr;}.couple-wrap{height:240px;}}
+</style>
+</head>
+<body>
+
+<div class="prog" id="prog"></div>
+
+<div class="nav-dots" id="navDots">
+  <div class="dot active" onclick="goTo(0)"></div>
+  <div class="dot" onclick="goTo(1)"></div>
+  <div class="dot" onclick="goTo(2)"></div>
+  <div class="dot" onclick="goTo(3)"></div>
+  <div class="dot" onclick="goTo(4)"></div>
+</div>
+
+<div id="particles"></div>
+<div class="balloon-cont" id="balloons"></div>
+
+<!-- ===== SCREEN 1: INTRO ===== -->
+<div class="screen active" id="s1">
+  <div class="kannu-name">Kannu</div>
+  <div class="kannu-sub">✦ Ek Dil Ki Awaaz ✦</div>
+
+  <div class="couple-wrap" id="coupleWrap">
+    <canvas id="c1" width="340" height="300" style="width:100%;height:100%;"></canvas>
+  </div>
+
+  <div class="scroll-hint" onclick="goTo(1)">Neeche Aao ↓</div>
+</div>
+
+<!-- ===== SCREEN 2: LETTER ===== -->
+<div class="screen" id="s2">
+  <div class="letter-card" id="letterCard">
+    <div class="letter-line" id="l1">Kannu,</div>
+    <div class="letter-line hl" id="l2">"Kuch cheezein kehni hoti hain, lekin alfaaz chhote pad jaate hain."</div>
+    <div class="letter-line" id="l3">Tujhe dekhke jo sukoon milta hai, woh kisi aur cheez mein nahi milta. Teri hansi sunke din ka ek alag hi rang ho jaata hai.</div>
+    <div class="letter-line" id="l4">Naraazgi ho, baat na ho, ya koi aisi waqt ho jab sab thak jaate hain — main nahi thakunga. Kyunki jo sachchi parwah karte hain, woh kabhi side nahi lete.</div>
+    <div class="letter-line hl" id="l5">"Tu naraaz ho jaa mujhse, main phir bhi wahi rahunga — tere paas, teri taraf."</div>
+    <div class="letter-line" id="l6">Koi drama nahi, koi condition nahi. Bas itna hai ki tujhe khona nahi chahta.</div>
+    <div class="letter-sign" id="l7">— Tera</div>
+  </div>
+  <button class="next-btn" onclick="goTo(2)">Aage Chalo →</button>
+</div>
+
+<!-- ===== SCREEN 3: MOMENTS ===== -->
+<div class="screen" id="s3">
+  <div class="moments-title">Teri Baatein Jo Yaad Rehti Hain...</div>
+  <div class="moments-grid" id="momGrid">
+    <div class="moment-card" id="m1">
+      <span class="moment-icon">🌙</span>
+      <h3>Raat ki baatein</h3>
+      <p>Woh waqt jab sab so jaate hain aur hum dono ki baatein band nahi hoti.</p>
+    </div>
+    <div class="moment-card" id="m2">
+      <span class="moment-icon">😤</span>
+      <h3>Teri naraazgi</h3>
+      <p>Tujhe gussa aata hai toh bhi itni pyaari lagti hai — yeh mat batana tujhe.</p>
+    </div>
+    <div class="moment-card" id="m3">
+      <span class="moment-icon">🌸</span>
+      <h3>Teri hansi</h3>
+      <p>Sach mein — teri hansi sunke jo feel hota hai woh kisi cheez mein nahi milta.</p>
+    </div>
+    <div class="moment-card" id="m4">
+      <span class="moment-icon">🤝</span>
+      <h3>Tera bharosa</h3>
+      <p>Tu ne jab bhi kuch share kiya — woh pal mere liye bohot khaas hote hain.</p>
+    </div>
+  </div>
+  <button class="next-btn" onclick="goTo(3)">Ek Baat Aur →</button>
+</div>
+
+<!-- ===== SCREEN 4: QUESTION ===== -->
+<div class="screen" id="s4">
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+    <div id="qHeart" style="font-size:70px;margin-bottom:24px;animation:pulseheart 1.2s ease-in-out infinite;">💗</div>
+    <div class="q-title">Kannu, kya tu meri<br>khaas dost banegi?</div>
+    <div class="q-sub">Woh dost jo thoda zyada khaas ho — jiske saath din acha lage, jo samjhe bina samjhaye, aur jo mile toh lagey ki yahi chahiye tha.</div>
+    <button class="q-btn" onclick="goTo(4)">Haan, Bilkul 💕</button>
+    <button class="next-btn" id="noBtn" onmouseover="dodgeNo(this)" onclick="dodgeNo(this)">Sochti hoon... 😅</button>
+  </div>
+</div>
+
+<!-- ===== SCREEN 5: YES ===== -->
+<div class="screen" id="s5">
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+    <div class="yes-ring">💍</div>
+    <div class="yes-title">Yahi chahiye tha! 🎉</div>
+    <div class="yes-msg">
+      Ab se tujhe akela nahi feel hone dunga.<br><br>
+      Teri har baat sunuunga — buri ho ya achi.<br>
+      Tere saath rahunga — chahe tu bole ya na bole.<br><br>
+      <span style="color:#fff;font-size:1.1em;font-style:italic;">"Tu hai toh sab theek hai, Kannu." 💕</span>
+    </div>
+    <div class="yes-hearts">💖 💗 💝</div>
+  </div>
+</div>
+
+<script>
+// ---- STATE ----
+let cur=0;
+const screens=['s1','s2','s3','s4','s5'];
+
+function goTo(n){
+  document.getElementById(screens[cur]).classList.remove('active');
+  cur=n;
+  document.getElementById(screens[cur]).classList.add('active');
+  updateUI();
+  if(n===1)animateLetter();
+  if(n===2)animateMoments();
+  if(n===4)celebrateYes();
+}
+
+function updateUI(){
+  const dots=document.querySelectorAll('.dot');
+  dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+  document.getElementById('prog').style.width=(cur/(screens.length-1)*100)+'%';
+}
+
+// ---- PARTICLES ----
+const pc=document.getElementById('particles');
+for(let i=0;i<100;i++){
+  const s=document.createElement('div');
+  const sz=Math.random()*2.5+0.6;
+  s.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:white;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*0.6+0.1};animation:twinkle ${2+Math.random()*3}s ${Math.random()*4}s ease-in-out infinite alternate;`;
+  pc.appendChild(s);
+}
+const ts=document.createElement('style');
+ts.textContent=`@keyframes twinkle{from{opacity:0.1;transform:scale(1);}to{opacity:0.8;transform:scale(1.5);}}`;
+document.head.appendChild(ts);
+
+// ---- BALLOONS ----
+const bc=document.getElementById('balloons');
+const bcolors=['#ff2d78','#ff6eb4','#d946b0','#ff0055','#ff85c0','#c0004a'];
+function makeBalloon(){
+  const w=document.createElement('div');w.className='bal';
+  const c=bcolors[Math.floor(Math.random()*bcolors.length)];
+  const sz=44+Math.random()*26;const dur=9+Math.random()*8;
+  const gid='g'+Math.floor(Math.random()*99999);
+  w.innerHTML=`<svg width="${sz}" height="${sz*1.4}" viewBox="0 0 60 84">
+    <defs><radialGradient id="${gid}" cx="35%" cy="28%" r="55%"><stop offset="0%" stop-color="white" stop-opacity="0.5"/><stop offset="100%" stop-color="${c}" stop-opacity="0"/></radialGradient></defs>
+    <ellipse cx="30" cy="29" rx="26" ry="28" fill="${c}"/>
+    <ellipse cx="30" cy="29" rx="26" ry="28" fill="url(#${gid})"/>
+    <ellipse cx="22" cy="20" rx="6" ry="8" fill="white" opacity="0.15" transform="rotate(-25,22,20)"/>
+    <path d="M26 57 C24 62,28 66,26 70 C24 75,28 80,26 84" stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M20 55 C24 58,36 58,40 55 C38 60,33 63,30 63 C27 63,22 60,20 55Z" fill="${c}" opacity="0.4"/>
+  </svg>`;
+  w.style.cssText=`left:${3+Math.random()*88}%;animation-duration:${dur}s;animation-delay:${Math.random()*2}s;`;
+  bc.appendChild(w);
+  setTimeout(()=>w.remove(),(dur+4)*1000);
+}
+for(let i=0;i<10;i++)setTimeout(makeBalloon,i*1100);
+setInterval(makeBalloon,2000);
+
+// ---- SCREEN 1 CANVAS: COUPLE ILLUSTRATION ----
+const can=document.getElementById('c1');
+const ctx=can.getContext('2d');
+let cf=0;
+function drawCouple(){
+  ctx.clearRect(0,0,340,300);
+  const t=cf;
+
+  // background glow
+  const grd=ctx.createRadialGradient(170,150,10,170,150,160);
+  grd.addColorStop(0,'rgba(255,45,120,0.08)');
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=grd;ctx.fillRect(0,0,340,300);
+
+  // floating hearts
+  [[60,60,8,0],[280,80,6,40],[170,30,10,20],[100,120,5,60],[240,40,7,10]].forEach(([x,y,s,d])=>{
+    const fy=y+Math.sin((t+d)*0.04)*10;
+    const a=0.3+Math.sin((t+d)*0.05)*0.25;
+    drawHeart(ctx,x,fy,s,'#ff2d78',a);
+  });
+
+  // GIRL (right) - realistic proportions
+  const gx=205,gy=80;
+  const gb=Math.sin(t*0.07)*1.5;
+
+  // hair back long
+  ctx.fillStyle='#2C1100';
+  ctx.beginPath();ctx.moveTo(gx-18,gy+38+gb);ctx.bezierCurveTo(gx-32,gy+70+gb,gx-36,gy+130+gb,gx-22,gy+155+gb);ctx.lineTo(gx-10,gy+155+gb);ctx.bezierCurveTo(gx-20,gy+125+gb,gx-22,gy+70+gb,gx-10,gy+40+gb);ctx.fill();
+  ctx.beginPath();ctx.moveTo(gx+18,gy+38+gb);ctx.bezierCurveTo(gx+32,gy+70+gb,gx+36,gy+130+gb,gx+22,gy+155+gb);ctx.lineTo(gx+10,gy+155+gb);ctx.bezierCurveTo(gx+20,gy+125+gb,gx+22,gy+70+gb,gx+10,gy+40+gb);ctx.fill();
+
+  // neck
+  ctx.fillStyle='#f0b8a0';ctx.fillRect(gx-7,gy+34+gb,14,18);
+
+  // dress
+  ctx.fillStyle='#d4006a';
+  ctx.beginPath();ctx.moveTo(gx-22,gy+48+gb);ctx.bezierCurveTo(gx-24,gy+90+gb,gx-30,gy+130+gb,gx-38,gy+160+gb);ctx.lineTo(gx+38,gy+160+gb);ctx.bezierCurveTo(gx+30,gy+130+gb,gx+24,gy+90+gb,gx+22,gy+48+gb);ctx.closePath();ctx.fill();
+
+  // dress sheen
+  ctx.fillStyle='rgba(255,150,200,0.15)';
+  ctx.beginPath();ctx.moveTo(gx-8,gy+50+gb);ctx.bezierCurveTo(gx-6,gy+90+gb,gx-4,gy+130+gb,gx-10,gy+160+gb);ctx.lineTo(gx+2,gy+160+gb);ctx.bezierCurveTo(gx+4,gy+130+gb,gx+2,gy+90+gb,gx,gy+50+gb);ctx.closePath();ctx.fill();
+
+  // waist gold
+  ctx.strokeStyle='#FFD700';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(gx-22,gy+78+gb);ctx.quadraticCurveTo(gx,gy+83+gb,gx+22,gy+78+gb);ctx.stroke();
+
+  // arms
+  ctx.strokeStyle='#f0b8a0';ctx.lineWidth=9;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(gx-20,gy+55+gb);ctx.bezierCurveTo(gx-36,gy+75+gb,gx-40,gy+100+gb,gx-32,gy+118+gb);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(gx+20,gy+55+gb);ctx.bezierCurveTo(gx+36,gy+75+gb,gx+38,gy+105+gb,gx+28,gy+120+gb);ctx.stroke();
+
+  // head
+  ctx.fillStyle='#f5c5a8';
+  ctx.beginPath();ctx.ellipse(gx,gy+18+gb,20,23,0,0,Math.PI*2);ctx.fill();
+
+  // hair top
+  ctx.fillStyle='#2C1100';
+  ctx.beginPath();ctx.ellipse(gx,gy+8+gb,21,16,0,Math.PI,0);ctx.fill();
+  ctx.beginPath();ctx.moveTo(gx-21,gy+8+gb);ctx.bezierCurveTo(gx-24,gy-5+gb,gx-14,gy-14+gb,gx,gy-12+gb);ctx.bezierCurveTo(gx+14,gy-14+gb,gx+24,gy-5+gb,gx+21,gy+8+gb);ctx.fill();
+
+  // eyes
+  ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(gx-7,gy+17+gb,4.5,5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(gx+7,gy+17+gb,4.5,5,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#2C1100';ctx.beginPath();ctx.arc(gx-7,gy+18+gb,3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(gx+7,gy+18+gb,3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='white';ctx.beginPath();ctx.arc(gx-6,gy+17+gb,1,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(gx+8,gy+17+gb,1,0,Math.PI*2);ctx.fill();
+
+  // lashes
+  ctx.strokeStyle='#2C1100';ctx.lineWidth=1.2;
+  [[-10,-13,-7,-16],[-7,-12,-5,-16],[-4,-12,-3,-16],[4,-12,3,-16],[7,-12,5,-16],[10,-13,7,-16]].forEach(([x1,y1,x2,y2])=>{
+    ctx.beginPath();ctx.moveTo(gx+x1,gy+17+y1+gb);ctx.lineTo(gx+x2,gy+17+y2+gb);ctx.stroke();
+  });
+
+  // brows
+  ctx.strokeStyle='#2C1100';ctx.lineWidth=1.8;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(gx-11,gy+11+gb);ctx.quadraticCurveTo(gx-7,gy+9+gb,gx-3,gy+11+gb);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(gx+3,gy+11+gb);ctx.quadraticCurveTo(gx+7,gy+9+gb,gx+11,gy+11+gb);ctx.stroke();
+
+  // blush
+  ctx.fillStyle='rgba(255,130,160,0.38)';
+  ctx.beginPath();ctx.ellipse(gx-13,gy+23+gb,6,3.5,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(gx+13,gy+23+gb,6,3.5,0,0,Math.PI*2);ctx.fill();
+
+  // smile
+  ctx.strokeStyle='#c0506a';ctx.lineWidth=1.8;
+  ctx.beginPath();ctx.moveTo(gx-6,gy+27+gb);ctx.quadraticCurveTo(gx,gy+32+gb,gx+6,gy+27+gb);ctx.stroke();
+
+  // legs
+  ctx.fillStyle='#f0b8a0';
+  ctx.fillRect(gx-14,gy+157+gb,11,30);ctx.fillRect(gx+3,gy+157+gb,11,30);
+
+  // heels
+  ctx.fillStyle='#990044';
+  ctx.fillRect(gx-16,gy+183+gb,13,8);ctx.fillRect(gx+1,gy+183+gb,13,8);
+  ctx.fillRect(gx-16,gy+185+gb,3,12);ctx.fillRect(gx+1,gy+185+gb,3,12);
+
+  // ---- BOY (left) ----
+  const bx=120,by=85;
+  const bb=Math.sin(t*0.07+1)*1.5;
+
+  // shirt
+  ctx.fillStyle='#1a3a8a';
+  ctx.beginPath();ctx.moveTo(bx-24,by+46+bb);ctx.bezierCurveTo(bx-26,by+90+bb,bx-28,by+130+bb,bx-30,by+155+bb);ctx.lineTo(bx+30,by+155+bb);ctx.bezierCurveTo(bx+28,by+130+bb,bx+26,by+90+bb,bx+24,by+46+bb);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#0f2460';ctx.beginPath();ctx.moveTo(bx-24,by+80+bb);ctx.lineTo(bx-30,by+155+bb);ctx.lineTo(bx+30,by+155+bb);ctx.lineTo(bx+24,by+80+bb);ctx.closePath();ctx.fill();
+
+  // collar
+  ctx.fillStyle='white';ctx.beginPath();ctx.moveTo(bx-8,by+46+bb);ctx.lineTo(bx,by+60+bb);ctx.lineTo(bx+8,by+46+bb);ctx.fill();
+
+  // neck
+  ctx.fillStyle='#d4a070';ctx.fillRect(bx-7,by+34+bb,14,16);
+
+  // arms
+  ctx.strokeStyle='#1a3a8a';ctx.lineWidth=12;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(bx-22,by+52+bb);ctx.bezierCurveTo(bx-38,by+75+bb,bx-42,by+105+bb,bx-34,by+125+bb);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(bx+22,by+52+bb);ctx.bezierCurveTo(bx+38,by+75+bb,bx+42,by+110+bb,bx+30,by+128+bb);ctx.stroke();
+
+  // hands
+  ctx.fillStyle='#d4a070';ctx.beginPath();ctx.ellipse(bx-33,by+128+bb,8,8,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(bx+29,by+130+bb,8,8,0,0,Math.PI*2);ctx.fill();
+
+  // head
+  ctx.fillStyle='#d4a070';ctx.beginPath();ctx.ellipse(bx,by+18+bb,21,24,0,0,Math.PI*2);ctx.fill();
+
+  // hair
+  ctx.fillStyle='#1a0800';
+  ctx.beginPath();ctx.ellipse(bx,by+6+bb,22,14,0,Math.PI,0);ctx.fill();
+  ctx.beginPath();ctx.moveTo(bx-22,by+6+bb);ctx.bezierCurveTo(bx-26,by-8+bb,bx-14,by-18+bb,bx,by-16+bb);ctx.bezierCurveTo(bx+14,by-18+bb,bx+26,by-8+bb,bx+22,by+6+bb);ctx.fill();
+
+  // eyes
+  ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(bx-7,by+17+bb,4.5,5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(bx+7,by+17+bb,4.5,5,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#1a0800';ctx.beginPath();ctx.arc(bx-7,by+18+bb,3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(bx+7,by+18+bb,3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='white';ctx.beginPath();ctx.arc(bx-6,by+17+bb,1,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(bx+8,by+17+bb,1,0,Math.PI*2);ctx.fill();
+
+  // brows
+  ctx.strokeStyle='#1a0800';ctx.lineWidth=2;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(bx-11,by+10+bb);ctx.quadraticCurveTo(bx-7,by+8+bb,bx-3,by+10+bb);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(bx+3,by+10+bb);ctx.quadraticCurveTo(bx+7,by+8+bb,bx+11,by+10+bb);ctx.stroke();
+
+  // blush
+  ctx.fillStyle='rgba(220,130,100,0.3)';
+  ctx.beginPath();ctx.ellipse(bx-13,by+23+bb,5,3,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(bx+13,by+23+bb,5,3,0,0,Math.PI*2);ctx.fill();
+
+  // slight smile
+  ctx.strokeStyle='#a06040';ctx.lineWidth=1.8;
+  ctx.beginPath();ctx.moveTo(bx-5,by+27+bb);ctx.quadraticCurveTo(bx,by+31+bb,bx+5,by+27+bb);ctx.stroke();
+
+  // legs pants
+  ctx.fillStyle='#0f2460';ctx.fillRect(bx-14,by+152+bb,12,32);ctx.fillRect(bx+2,by+152+bb,12,32);
+  ctx.fillStyle='#333';ctx.fillRect(bx-15,by+180+bb,14,8);ctx.fillRect(bx+1,by+180+bb,14,8);
+
+  // hands joined area - warm glow
+  const hgrd=ctx.createRadialGradient(163,by+130,2,163,by+130,22);
+  hgrd.addColorStop(0,'rgba(255,100,180,0.35)');hgrd.addColorStop(1,'rgba(255,100,180,0)');
+  ctx.fillStyle=hgrd;ctx.beginPath();ctx.arc(163,by+130,22,0,Math.PI*2);ctx.fill();
+
+  // name labels
+  ctx.font='italic 11px Georgia';ctx.textAlign='center';
+  ctx.fillStyle='rgba(255,180,220,0.7)';
+  ctx.fillText('Kannu 💕',gx,gy+205+gb);
+  ctx.fillStyle='rgba(180,200,255,0.7)';
+  ctx.fillText('Tera 🌟',bx,by+205+bb);
+
+  cf++;
+  requestAnimationFrame(drawCouple);
+}
+drawCouple();
+
+function drawHeart(c,x,y,s,col,a){
+  c.save();c.globalAlpha=a||1;c.fillStyle=col;
+  c.beginPath();c.moveTo(x,y+s*0.35);
+  c.bezierCurveTo(x,y,x-s,y,x-s,y+s*0.4);
+  c.bezierCurveTo(x-s,y+s*0.85,x,y+s*1.25,x,y+s*1.25);
+  c.bezierCurveTo(x,y+s*1.25,x+s,y+s*0.85,x+s,y+s*0.4);
+  c.bezierCurveTo(x+s,y,x,y,x,y+s*0.35);
+  c.fill();c.restore();
+}
+
+// ---- LETTER ANIMATION ----
+function animateLetter(){
+  const ids=['l1','l2','l3','l4','l5','l6','l7'];
+  ids.forEach((id,i)=>{setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('show');},400+i*400);});
+}
+
+// ---- MOMENTS ANIMATION ----
+function animateMoments(){
+  ['m1','m2','m3','m4'].forEach((id,i)=>{setTimeout(()=>{const el=document.getElementById(id);if(el)el.classList.add('show');},200+i*200);});
+}
+
+// ---- NO BUTTON DODGE ----
+function dodgeNo(btn){
+  const vw=window.innerWidth-140;const vh=window.innerHeight-60;
+  btn.style.position='fixed';btn.style.left=Math.random()*vw+'px';btn.style.top=Math.random()*vh+'px';btn.style.zIndex=50;
+  const t=["Pakad ke dikhao 😂","Nahi bolunga! 🙈","Bohot slow ho 😜","Haha try karo! 💨"];
+  btn.textContent=t[Math.floor(Math.random()*t.length)];
+}
+
+// ---- YES CELEBRATION ----
+function celebrateYes(){
+  for(let i=0;i<40;i++){setTimeout(()=>{
+    const h=document.createElement('div');
+    const sz=18+Math.random()*28;
+    const svgH=`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 4C12 1,8 -1,4 2C0 5,0 11,5 16L12 23L19 16C24 11,24 5,20 2C16 -1,12 1,12 4Z" fill="#ff2d78"/></svg>`;
+    h.innerHTML=svgH;
+    h.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:${Math.random()*100}vh;z-index:999;pointer-events:none;animation:pop 1.6s ease-out forwards;`;
+    document.body.appendChild(h);setTimeout(()=>h.remove(),1700);
+  },i*60);}
+  for(let i=0;i<20;i++)setTimeout(makeBalloon,i*150);
+}
+const ps2=document.createElement('style');
+ps2.textContent=`@keyframes pop{0%{transform:scale(0);opacity:1;}60%{transform:scale(1.4) translateY(-60px);opacity:1;}100%{transform:scale(0.8) translateY(-130px);opacity:0;}}`;
+document.head.appendChild(ps2);
+</script>
+</body>
+</html>
