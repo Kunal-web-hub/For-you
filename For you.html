@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kannu — Sirf Teri Baat Hai 💕</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Georgia',serif;background:linear-gradient(135deg,#1a0010 0%,#3d0030 40%,#1a0020 100%);min-height:100vh;overflow-x:hidden;position:relative;}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle 3s infinite ease-in-out alternate;}
+@keyframes twinkle{0%{opacity:0.2;transform:scale(1);}100%{opacity:1;transform:scale(1.5);}}
+.petals-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:hidden;}
+.petal{position:absolute;top:-40px;animation:fall linear infinite;opacity:0.8;}
+@keyframes fall{0%{top:-40px;transform:translateX(0) rotate(0deg);opacity:0.9;}100%{top:110vh;transform:translateX(60px) rotate(360deg);opacity:0;}}
+.balloons-layer{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;}
+.bwrap{position:absolute;bottom:-140px;animation:floatup linear infinite;}
+@keyframes floatup{0%{bottom:-140px;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{bottom:110vh;opacity:0;}}
+.bsvg{animation:sway ease-in-out infinite alternate;}
+@keyframes sway{from{transform:rotate(-10deg);}to{transform:rotate(10deg);}}
+.main{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px 80px;}
+.hero-hearts{margin-bottom:10px;animation:pulseheart 1.5s ease-in-out infinite;}
+@keyframes pulseheart{0%,100%{transform:scale(1);}50%{transform:scale(1.15);}}
+.title{font-size:clamp(26px,5.5vw,52px);color:#fff;text-align:center;font-style:italic;font-weight:700;text-shadow:0 0 30px rgba(255,120,180,0.9);margin-bottom:6px;line-height:1.25;}
+.subtitle{font-size:clamp(12px,2.5vw,17px);color:#ffb3d9;text-align:center;letter-spacing:3px;text-transform:uppercase;margin-bottom:36px;opacity:0.9;}
+.photos-row{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;align-items:flex-end;}
+.photo-item{display:flex;flex-direction:column;align-items:center;}
+.photo-frame{width:155px;height:155px;border-radius:50%;border:4px solid #ff6eb4;box-shadow:0 0 22px rgba(255,110,180,0.7);overflow:hidden;display:flex;align-items:center;justify-content:center;animation:glowframe 2s ease-in-out infinite alternate;flex-shrink:0;background:#1a0028;}
+@keyframes glowframe{from{box-shadow:0 0 20px rgba(255,110,180,0.6);}to{box-shadow:0 0 40px rgba(255,110,180,1),0 0 70px rgba(255,60,100,0.5);}}
+.photo-frame.gold{border-color:#FFD700;animation:glowgold 2s ease-in-out infinite alternate;}
+@keyframes glowgold{from{box-shadow:0 0 20px rgba(255,215,0,0.5);}to{box-shadow:0 0 40px rgba(255,215,0,0.9),0 0 70px rgba(255,180,0,0.4);}}
+.photo-label{text-align:center;color:#ffb3d9;font-size:13px;margin-top:9px;font-style:italic;}
+.hdiv{text-align:center;margin-bottom:28px;animation:pulseheart 2s ease-in-out infinite;}
+.message-card{background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);border:1px solid rgba(255,110,180,0.35);border-radius:24px;padding:32px 28px;max-width:610px;width:100%;text-align:center;margin-bottom:34px;}
+.message-card p{color:#ffe0f0;font-size:clamp(14px,2.5vw,17px);line-height:2;margin-bottom:16px;}
+.message-card p:last-child{margin-bottom:0;}
+.highlight{color:#ff9dd4;font-style:italic;font-size:clamp(15px,2.8vw,20px);}
+.question-section{text-align:center;margin-bottom:34px;}
+.question-text{font-size:clamp(20px,4.5vw,40px);color:#fff;font-weight:700;font-style:italic;text-shadow:0 0 28px rgba(255,120,180,0.9);margin-bottom:26px;line-height:1.3;}
+.btn-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-yes{background:linear-gradient(135deg,#ff3a8c,#ff0055);color:white;border:none;padding:17px 42px;font-size:21px;font-family:Georgia,serif;font-style:italic;border-radius:50px;cursor:pointer;box-shadow:0 6px 30px rgba(255,0,80,0.6);transition:transform 0.2s,box-shadow 0.2s;animation:pulsebtn 1.8s ease-in-out infinite;}
+.btn-yes:hover{transform:scale(1.09);box-shadow:0 12px 50px rgba(255,0,80,0.85);}
+@keyframes pulsebtn{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.btn-no{background:transparent;color:#ffb3d9;border:2px solid rgba(255,110,180,0.5);padding:15px 34px;font-size:15px;font-family:Georgia,serif;font-style:italic;border-radius:50px;cursor:pointer;transition:all 0.15s;}
+.yes-screen{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;}
+.yes-screen.active{display:flex;}
+.yes-title{font-size:clamp(28px,6vw,55px);color:#fff;font-style:italic;text-shadow:0 0 40px rgba(255,120,180,1);margin:20px 0 14px;}
+.yes-msg{color:#ffb3d9;font-size:clamp(14px,2.8vw,20px);line-height:1.85;max-width:520px;}
+.footer-hearts{color:#ff6eb4;font-size:20px;letter-spacing:6px;margin-top:36px;opacity:0.7;text-align:center;}
+@media(max-width:480px){.photo-frame{width:120px;height:120px;}.btn-yes{padding:13px 28px;font-size:17px;}.message-card{padding:22px 16px;}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="petals-container" id="petals"></div>
+<div class="balloons-layer" id="balloons"></div>
+
+<div class="main" id="mainContent">
+
+  <div class="hero-hearts">
+    <svg width="180" height="52" viewBox="0 0 180 52" fill="none">
+      <path d="M26 10C26 4,18 0,12 4C6 8,6 16,12 22L26 36L40 22C46 16,46 8,40 4C34 0,26 4,26 10Z" fill="#ff2d78"/>
+      <path d="M90 10C90 4,82 0,76 4C70 8,70 16,76 22L90 36L104 22C110 16,110 8,104 4C98 0,90 4,90 10Z" fill="#ff2d78"/>
+      <path d="M154 10C154 4,146 0,140 4C134 8,134 16,140 22L154 36L168 22C174 16,174 8,168 4C162 0,154 4,154 10Z" fill="#ff2d78"/>
+    </svg>
+  </div>
+
+  <h1 class="title">Meri Pyaari Kannu ke Liye,<br>Dil Se...</h1>
+  <p class="subtitle">✦ Sirf Teri Baat Hai ✦</p>
+
+  <!-- Photos: SVG Prince & Princess -->
+  <div class="photos-row">
+
+    <!-- Prince -->
+    <div class="photo-item">
+      <div class="photo-frame gold">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <!-- night bg -->
+          <circle cx="70" cy="70" r="70" fill="#0d001a"/>
+          <!-- stars -->
+          <circle cx="20" cy="18" r="1.2" fill="white" opacity="0.7"/>
+          <circle cx="110" cy="22" r="1" fill="white" opacity="0.6"/>
+          <circle cx="55" cy="12" r="0.9" fill="white" opacity="0.8"/>
+          <circle cx="125" cy="40" r="1.1" fill="white" opacity="0.5"/>
+          <!-- robe/cloak -->
+          <ellipse cx="70" cy="115" rx="38" ry="22" fill="#1a1a6e"/>
+          <path d="M35 115 Q42 90 70 88 Q98 90 105 115Z" fill="#2a2a9e"/>
+          <!-- belt -->
+          <rect x="52" y="102" width="36" height="6" rx="3" fill="#8B6914"/>
+          <rect x="67" y="100" width="6" height="10" rx="2" fill="#FFD700"/>
+          <!-- shirt/tunic -->
+          <path d="M45 90 Q50 75 70 75 Q90 75 95 90 L100 115 Q70 120 40 115Z" fill="#3a3aaa"/>
+          <!-- gold shoulder trim -->
+          <path d="M45 90 Q47 84 55 82" stroke="#FFD700" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M95 90 Q93 84 85 82" stroke="#FFD700" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- neck -->
+          <rect x="63" y="70" width="14" height="14" rx="5" fill="#d4a574"/>
+          <!-- head -->
+          <ellipse cx="70" cy="55" rx="22" ry="24" fill="#e8b98a"/>
+          <!-- hair -->
+          <path d="M48 50 Q50 30 70 28 Q90 30 92 50 Q88 38 70 36 Q52 38 48 50Z" fill="#2C1503"/>
+          <!-- side hair -->
+          <path d="M48 50 Q44 58 46 66" stroke="#2C1503" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M92 50 Q96 58 94 66" stroke="#2C1503" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- crown -->
+          <rect x="52" y="30" width="36" height="8" rx="2" fill="#FFD700"/>
+          <polygon points="52,30 57,18 62,30" fill="#FFD700"/>
+          <polygon points="65,30 70,16 75,30" fill="#FFD700"/>
+          <polygon points="78,30 83,18 88,30" fill="#FFD700"/>
+          <circle cx="57" cy="20" r="2.5" fill="#E83030"/>
+          <circle cx="70" cy="17" r="3" fill="#3030E8"/>
+          <circle cx="83" cy="20" r="2.5" fill="#30A030"/>
+          <!-- eyes -->
+          <ellipse cx="62" cy="54" rx="4" ry="4.5" fill="white"/>
+          <ellipse cx="78" cy="54" rx="4" ry="4.5" fill="white"/>
+          <circle cx="63" cy="55" r="2.8" fill="#2C1503"/>
+          <circle cx="79" cy="55" r="2.8" fill="#2C1503"/>
+          <circle cx="64" cy="54" r="1" fill="white"/>
+          <circle cx="80" cy="54" r="1" fill="white"/>
+          <!-- eyebrows -->
+          <path d="M58 48 Q62 46 66 48" stroke="#2C1503" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M74 48 Q78 46 82 48" stroke="#2C1503" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <!-- smile -->
+          <path d="M63 65 Q70 71 77 65" stroke="#b07040" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- cheeks -->
+          <ellipse cx="57" cy="62" rx="5" ry="3" fill="#ffb3a0" opacity="0.45"/>
+          <ellipse cx="83" cy="62" rx="5" ry="3" fill="#ffb3a0" opacity="0.45"/>
+          <!-- arms -->
+          <path d="M45 90 Q30 100 32 115" stroke="#d4a574" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M95 90 Q110 100 108 115" stroke="#d4a574" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <!-- hands -->
+          <circle cx="32" cy="117" r="6" fill="#d4a574"/>
+          <circle cx="108" cy="117" r="6" fill="#d4a574"/>
+          <!-- small heart in hand -->
+          <path d="M29 115 C29 113,27 112,26 114C25 116,26 118,29 120L29 120L32 117Z" fill="#ff2d78" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="photo-label">Tera Prince 👑</div>
+    </div>
+
+    <!-- Center heart -->
+    <div class="photo-item" style="margin-bottom:14px;">
+      <svg width="60" height="56" viewBox="0 0 60 56">
+        <path d="M30 10C30 4,22 0,16 4C10 8,10 18,18 24L30 36L42 24C50 18,50 8,44 4C38 0,30 4,30 10Z" fill="#ff2d78">
+          <animate attributeName="transform" values="scale(1) translate(0,0);scale(1.2) translate(-3,-3);scale(1) translate(0,0)" dur="1s" repeatCount="indefinite" additive="sum"/>
+        </path>
+        <circle cx="22" cy="14" r="4" fill="white" opacity="0.25"/>
+      </svg>
+    </div>
+
+    <!-- Princess / Kannu -->
+    <div class="photo-item">
+      <div class="photo-frame">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <!-- soft pink bg -->
+          <circle cx="70" cy="70" r="70" fill="#1a0020"/>
+          <!-- sparkles -->
+          <circle cx="22" cy="20" r="1.2" fill="#FFD700" opacity="0.8"/>
+          <circle cx="108" cy="16" r="1" fill="#FFD700" opacity="0.7"/>
+          <circle cx="60" cy="10" r="0.9" fill="white" opacity="0.7"/>
+          <circle cx="122" cy="38" r="1.1" fill="#FFD700" opacity="0.6"/>
+          <!-- dress / skirt -->
+          <path d="M30 130 Q38 100 70 98 Q102 100 110 130Z" fill="#c94f8a"/>
+          <path d="M35 130 Q42 108 70 106 Q98 108 105 130Z" fill="#e865a8"/>
+          <!-- dress bodice -->
+          <path d="M48 90 Q52 72 70 72 Q88 72 92 90 L96 110 Q70 116 44 110Z" fill="#e865a8"/>
+          <!-- bodice detail -->
+          <path d="M58 75 Q70 72 82 75" stroke="#FFD700" stroke-width="1.5" fill="none" opacity="0.7"/>
+          <!-- waist ribbon -->
+          <path d="M48 96 Q70 100 92 96" stroke="#FFD700" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- bow -->
+          <path d="M60 96 Q55 90 58 88 Q63 90 70 88 Q77 90 82 88 Q85 90 80 96" fill="#ff9dd4"/>
+          <!-- neck -->
+          <rect x="63" y="68" width="14" height="12" rx="5" fill="#f5c2c7"/>
+          <!-- head -->
+          <ellipse cx="70" cy="52" rx="22" ry="24" fill="#f5c2c7"/>
+          <!-- long hair left -->
+          <path d="M48 46 Q38 60 40 90 Q44 85 46 70 Q48 80 50 88" fill="#3B1200" opacity="0.95"/>
+          <!-- long hair right -->
+          <path d="M92 46 Q102 60 100 90 Q96 85 94 70 Q92 80 90 88" fill="#3B1200" opacity="0.95"/>
+          <!-- hair top -->
+          <path d="M48 46 Q50 26 70 24 Q90 26 92 46 Q86 34 70 32 Q54 34 48 46Z" fill="#3B1200"/>
+          <!-- tiara / crown -->
+          <rect x="55" y="27" width="30" height="6" rx="2" fill="#FFD700"/>
+          <polygon points="55,27 59,17 63,27" fill="#FFD700"/>
+          <polygon points="67,27 70,14 73,27" fill="#FFD700"/>
+          <polygon points="77,27 81,17 85,27" fill="#FFD700"/>
+          <circle cx="59" cy="19" r="2" fill="#E83080"/>
+          <circle cx="70" cy="15" r="2.5" fill="#A020A0"/>
+          <circle cx="81" cy="19" r="2" fill="#E83080"/>
+          <!-- eyes -->
+          <ellipse cx="62" cy="51" rx="4.5" ry="5" fill="white"/>
+          <ellipse cx="78" cy="51" rx="4.5" ry="5" fill="white"/>
+          <circle cx="63" cy="52" r="3" fill="#3B1200"/>
+          <circle cx="79" cy="52" r="3" fill="#3B1200"/>
+          <circle cx="64.2" cy="51" r="1.1" fill="white"/>
+          <circle cx="80.2" cy="51" r="1.1" fill="white"/>
+          <!-- long lashes -->
+          <line x1="58" y1="46" x2="56" y2="43" stroke="#3B1200" stroke-width="1.2"/>
+          <line x1="62" y1="45" x2="61" y2="42" stroke="#3B1200" stroke-width="1.2"/>
+          <line x1="66" y1="46" x2="66" y2="43" stroke="#3B1200" stroke-width="1.2"/>
+          <line x1="74" y1="46" x2="74" y2="43" stroke="#3B1200" stroke-width="1.2"/>
+          <line x1="78" y1="45" x2="79" y2="42" stroke="#3B1200" stroke-width="1.2"/>
+          <line x1="82" y1="46" x2="84" y2="43" stroke="#3B1200" stroke-width="1.2"/>
+          <!-- eyebrows -->
+          <path d="M58 45 Q62 43 66 45" stroke="#3B1200" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M74 45 Q78 43 82 45" stroke="#3B1200" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <!-- blush -->
+          <ellipse cx="56" cy="59" rx="6" ry="3.5" fill="#ffb3c6" opacity="0.55"/>
+          <ellipse cx="84" cy="59" rx="6" ry="3.5" fill="#ffb3c6" opacity="0.55"/>
+          <!-- smile -->
+          <path d="M63 63 Q70 69 77 63" stroke="#c0506a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M65 63 Q70 67 75 63" fill="#ff8fb5" opacity="0.4"/>
+          <!-- arms -->
+          <path d="M48 90 Q34 98 36 114" stroke="#f5c2c7" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <path d="M92 90 Q106 98 104 114" stroke="#f5c2c7" stroke-width="9" fill="none" stroke-linecap="round"/>
+          <circle cx="36" cy="116" r="6" fill="#f5c2c7"/>
+          <circle cx="104" cy="116" r="6" fill="#f5c2c7"/>
+          <!-- bracelet -->
+          <path d="M30 113 Q36 118 42 113" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- floating hearts near her -->
+          <path d="M112 55 C112 52,109 51,107 53C105 55,106 58,109 61L112 64L115 61C118 58,119 55,117 53C115 51,112 52,112 55Z" fill="#ff6eb4" opacity="0.7">
+            <animate attributeName="transform" values="translate(0,0);translate(2,-6);translate(0,0)" dur="2s" repeatCount="indefinite" additive="sum"/>
+          </path>
+          <path d="M20 65 C20 63,17 62,15 64C13 66,14 69,17 71L20 74L23 71C26 69,27 66,25 64C23 62,20 63,20 65Z" fill="#ff6eb4" opacity="0.6">
+            <animate attributeName="transform" values="translate(0,0);translate(-2,-5);translate(0,0)" dur="2.4s" repeatCount="indefinite" additive="sum"/>
+          </path>
+          <!-- name tag -->
+          <rect x="50" y="124" width="40" height="13" rx="6" fill="#ff3a8c" opacity="0.85"/>
+          <text x="70" y="134" text-anchor="middle" font-size="8.5" fill="white" font-family="Georgia" font-style="italic">Kannu 👑</text>
+        </svg>
+      </div>
+      <div class="photo-label">Meri Kannu 👸</div>
+    </div>
+  </div>
+
+  <div class="hdiv">
+    <svg width="130" height="28" viewBox="0 0 130 28">
+      <path d="M18 6C18 2,12 0,8 3C4 6,4 12,8 16L18 26L28 16C32 12,32 6,28 3C24 0,18 2,18 6Z" fill="#ff6eb4"/>
+      <path d="M65 6C65 2,59 0,55 3C51 6,51 12,55 16L65 26L75 16C79 12,79 6,75 3C71 0,65 2,65 6Z" fill="#ff6eb4"/>
+      <path d="M112 6C112 2,106 0,102 3C98 6,98 12,102 16L112 26L122 16C126 12,126 6,122 3C118 0,112 2,112 6Z" fill="#ff6eb4"/>
+    </svg>
+  </div>
+
+  <!-- Love message -->
+  <div class="message-card">
+    <p>Kannu… <span class="highlight">main tumhe khona nahi chahta.</span> Ye ek baat hai jo mujhe har waqt satati hai — ki agar kabhi tum mere se door chali gayi toh main kya karunga?</p>
+    <p>Tumse wada karta hoon — <span class="highlight">har situation mein, har mushkil mein, har khushi mein — main tumhare saath rahunga.</span> Koi argument ho, koi takrar ho, tum kitna bhi naraz ho mujhse… main wahan rahunga. Baar baar, har baar.</p>
+    <p class="highlight">"Tum naraz ho sakti ho mujhse, muh phair sakti ho, magar main jaaunga nahi — kyunki tum meri duniya ho."</p>
+    <p>Tum roti ho toh mera dil toot jaata hai. Tum hansti ho toh main sab kuch bhool jaata hoon. Tumhari ek chhoti si baat bhi mujhe poora din yaad rehti hai. Ye sab sirf isliye nahi keh main chahta hoon — balki isliye kyunki <span class="highlight">tum mere liye wakai bahut khaas ho, Kannu.</span></p>
+    <p>Jo log sachchi parwah karte hain, woh kabhi chhodte nahi. Main bhi nahi chodhunga. <span class="highlight">Hamesha manaunga. Hamesha.</span></p>
+  </div>
+
+  <!-- Proposal -->
+  <div class="question-section" id="proposalSection">
+    <div class="question-text">Kya tum meri ban jaogi,<br>aaj aur hamesha ke liye? 💍</div>
+    <div class="btn-row">
+      <button class="btn-yes" onclick="sayYes()">
+        <svg width="20" height="18" viewBox="0 0 20 18" style="vertical-align:middle;margin-right:6px"><path d="M10 3C10 0,5 -1,2 2C-1 5,0 10,4 14L10 20L16 14C20 10,21 5,18 2C15 -1,10 0,10 3Z" fill="white"/></svg>
+        Haan, Hamesha!
+      </button>
+      <button class="btn-no" id="noBtn" onmouseover="moveNoBtn(this)" onclick="moveNoBtn(this)">Sochti hoon… 😅</button>
+    </div>
+  </div>
+
+  <div class="footer-hearts">
+    <svg width="200" height="26" viewBox="0 0 200 26">
+      <path d="M13 4C13 1,9 0,6 2C3 4,3 9,6 12L13 19L20 12C23 9,23 4,20 2C17 0,13 1,13 4Z" fill="#ff6eb4" opacity="0.7"/>
+      <path d="M53 4C53 1,49 0,46 2C43 4,43 9,46 12L53 19L60 12C63 9,63 4,60 2C57 0,53 1,53 4Z" fill="#ff6eb4" opacity="0.7"/>
+      <path d="M100 4C100 1,96 0,93 2C90 4,90 9,93 12L100 19L107 12C110 9,110 4,107 2C104 0,100 1,100 4Z" fill="#ff6eb4" opacity="0.7"/>
+      <path d="M147 4C147 1,143 0,140 2C137 4,137 9,140 12L147 19L154 12C157 9,157 4,154 2C151 0,147 1,147 4Z" fill="#ff6eb4" opacity="0.7"/>
+      <path d="M187 4C187 1,183 0,180 2C177 4,177 9,180 12L187 19L194 12C197 9,197 4,194 2C191 0,187 1,187 4Z" fill="#ff6eb4" opacity="0.7"/>
+    </svg>
+  </div>
+</div>
+
+<!-- YES SCREEN -->
+<div class="yes-screen" id="yesScreen">
+  <canvas id="coupleCanvas" width="500" height="420" style="max-width:100%;border-radius:20px;"></canvas>
+  <div class="yes-title">Kannu ne Haan Bol Diya! 🎉</div>
+  <p class="yes-msg">
+    Aaj se tum sirf meri ho, Kannu — aur main sirf tera. 💕<br><br>
+    Har naraazgi ke baad bhi main wahi rahunga. Har mushkil mein haath thamne wala. Hamesha.<br><br>
+    <strong style="color:#fff;font-size:1.15em;">Tujhse pyaar hai, aaj bhi, kal bhi, hamesha. 💍</strong>
+  </p>
+  <div style="margin-top:22px;">
+    <svg width="160" height="50" viewBox="0 0 160 50">
+      <path d="M26 10C26 4,18 0,12 4C6 8,6 18,14 24L26 36L38 24C46 18,46 8,40 4C34 0,26 4,26 10Z" fill="#ff2d78"><animate attributeName="transform" values="scale(1);scale(1.3);scale(1)" dur="0.7s" repeatCount="indefinite" additive="sum"/></path>
+      <path d="M80 10C80 4,72 0,66 4C60 8,60 18,68 24L80 36L92 24C100 18,100 8,94 4C88 0,80 4,80 10Z" fill="#ff2d78"><animate attributeName="transform" values="scale(1);scale(1.3);scale(1)" dur="0.7s" begin="0.23s" repeatCount="indefinite" additive="sum"/></path>
+      <path d="M134 10C134 4,126 0,120 4C114 8,114 18,122 24L134 36L146 24C154 18,154 8,148 4C142 0,134 4,134 10Z" fill="#ff2d78"><animate attributeName="transform" values="scale(1);scale(1.3);scale(1)" dur="0.7s" begin="0.46s" repeatCount="indefinite" additive="sum"/></path>
+    </svg>
+  </div>
+</div>
+
+<script>
+const starsEl=document.getElementById('stars');
+for(let i=0;i<130;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*2.8+0.8;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;starsEl.appendChild(s);}
+const petalsEl=document.getElementById('petals');
+function makePetal(){const p=document.createElement('div');p.className='petal';const type=Math.floor(Math.random()*3);const sz=14+Math.random()*12;const dur=7+Math.random()*7;p.style.cssText=`left:${Math.random()*100}%;animation-duration:${dur}s;animation-delay:${Math.random()*3}s;`;const svgs=[`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2C12 2,6 0,3 4C0 8,2 14,6 16C8 17,10 16,12 14C14 16,16 17,18 16C22 14,24 8,21 4C18 0,12 2,12 2Z" fill="#ff6eb4"/></svg>`,`<svg width="${sz}" height="${sz*1.2}" viewBox="0 0 20 24"><ellipse cx="10" cy="12" rx="7" ry="11" fill="#ff8fb5" transform="rotate(-20,10,12)"/></svg>`,`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2C12 2,5 4,4 10C3 16,8 21,12 22C16 21,21 16,20 10C19 4,12 2,12 2Z" fill="#ffb3d9"/></svg>`];p.innerHTML=svgs[type];petalsEl.appendChild(p);setTimeout(()=>p.remove(),(dur+4)*1000);}
+for(let i=0;i<20;i++)setTimeout(makePetal,i*500);setInterval(makePetal,1000);
+const ballEl=document.getElementById('balloons');
+function makeBalloon(){const w=document.createElement('div');w.className='bwrap';const colors=['#ff2d78','#ff6eb4','#c946b0','#ff0055','#e8004e','#ff85c0'];const c=colors[Math.floor(Math.random()*colors.length)];const sz=48+Math.random()*28;const dur=10+Math.random()*8;const swayDur=1.6+Math.random()*2;const gid='bg'+Math.floor(Math.random()*99999);const svg=`<svg width="${sz}" height="${sz*1.35}" viewBox="0 0 60 82" class="bsvg" style="animation-duration:${swayDur}s"><defs><radialGradient id="${gid}" cx="35%" cy="30%" r="60%"><stop offset="0%" stop-color="white" stop-opacity="0.45"/><stop offset="100%" stop-color="${c}" stop-opacity="0"/></radialGradient></defs><ellipse cx="30" cy="30" rx="25" ry="28" fill="${c}"/><ellipse cx="30" cy="30" rx="25" ry="28" fill="url(#${gid})" opacity="0.6"/><path d="M30 58 C28 62,32 66,30 70 C28 74,32 78,30 82" stroke="${c}" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="22" rx="5" ry="7" fill="white" opacity="0.18" transform="rotate(-25,22,22)"/><path d="M22 56 C26 58,34 58,38 56 C36 60,32 62,28 62 Z" fill="${c}" opacity="0.5"/></svg>`;w.innerHTML=svg;w.style.cssText=`left:${4+Math.random()*88}%;animation-duration:${dur}s;bottom:-140px;`;ballEl.appendChild(w);setTimeout(()=>w.remove(),(dur+2)*1000);}
+for(let i=0;i<14;i++)setTimeout(makeBalloon,i*900);setInterval(makeBalloon,1800);
+
+function moveNoBtn(btn){const vw=Math.max(window.innerWidth-160,80);const vh=Math.max(window.innerHeight-60,80);btn.style.position='fixed';btn.style.left=Math.random()*vw+'px';btn.style.top=Math.random()*vh+'px';btn.style.zIndex=20;const msgs=["Pakad ke dikhao! 😂","Nahi nahi nahi! 🙈","Abhi nahi! 💨","Bahut slow ho! 😜","Try karo phir se! 😂"];btn.textContent=msgs[Math.floor(Math.random()*msgs.length)];}
+
+function sayYes(){burstHearts();document.getElementById('mainContent').style.display='none';const nb=document.getElementById('noBtn');if(nb)nb.style.display='none';const ys=document.getElementById('yesScreen');ys.classList.add('active');for(let i=0;i<25;i++)setTimeout(makeBalloon,i*160);setTimeout(startCoupleAnimation,200);}
+
+function burstHearts(){for(let i=0;i<35;i++){setTimeout(()=>{const h=document.createElement('div');const sz=22+Math.random()*30;h.innerHTML=`<svg width="${sz}" height="${sz}" viewBox="0 0 28 28"><path d="M14 5C14 1,9 -1,5 2C1 5,1 11,6 16L14 24L22 16C27 11,27 5,23 2C19 -1,14 1,14 5Z" fill="#ff2d78"/></svg>`;h.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:${Math.random()*100}vh;z-index:999;pointer-events:none;animation:burst 1.5s ease-out forwards;`;document.body.appendChild(h);setTimeout(()=>h.remove(),1600);},i*70);}}
+const bs=document.createElement('style');bs.textContent=`@keyframes burst{0%{transform:scale(0) translateY(0);opacity:1;}50%{transform:scale(1.5) translateY(-70px);opacity:1;}100%{transform:scale(0.7) translateY(-140px);opacity:0;}}`;document.head.appendChild(bs);
+
+function startCoupleAnimation(){
+  const canvas=document.getElementById('coupleCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  let frame=0;let phase=0;
+
+  function drawBg(){ctx.fillStyle='#1a0020';ctx.fillRect(0,0,W,H);for(let i=0;i<80;i++){ctx.beginPath();ctx.arc((i*73)%W,(i*53)%H,i%7===0?1.5:0.8,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${0.15+Math.sin(frame*0.05+i)*0.2})`;ctx.fill();}ctx.fillStyle='rgba(255,45,120,0.06)';ctx.fillRect(0,0,W,H);}
+
+  function drawHeart(x,y,s,col,a){ctx.save();ctx.globalAlpha=a||1;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x,y+s*0.3);ctx.bezierCurveTo(x,y,x-s,y,x-s,y+s*0.4);ctx.bezierCurveTo(x-s,y+s*0.8,x,y+s*1.2,x,y+s*1.2);ctx.bezierCurveTo(x,y+s*1.2,x+s,y+s*0.8,x+s,y+s*0.4);ctx.bezierCurveTo(x+s,y,x,y,x,y+s*0.3);ctx.fill();ctx.restore();}
+
+  function drawGirl(cx,cy,t){
+    ctx.save();ctx.translate(cx,cy);
+    const b=Math.sin(t*0.08)*2;
+    // long hair back
+    ctx.fillStyle='#3B1200';ctx.beginPath();ctx.moveTo(-22,-140+b);ctx.bezierCurveTo(-38,-120+b,-42,-60+b,-30,20+b);ctx.lineTo(-18,20+b);ctx.bezierCurveTo(-26,-55+b,-30,-110+b,-16,-138+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(22,-140+b);ctx.bezierCurveTo(38,-120+b,42,-60+b,30,20+b);ctx.lineTo(18,20+b);ctx.bezierCurveTo(26,-55+b,30,-110+b,16,-138+b);ctx.fill();
+    // head
+    ctx.fillStyle='#f5c2c7';ctx.beginPath();ctx.ellipse(0,-120+b,22,25,0,0,Math.PI*2);ctx.fill();
+    // hair top
+    ctx.fillStyle='#3B1200';ctx.beginPath();ctx.arc(0,-132+b,18,Math.PI,0);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-18,-132+b);ctx.bezierCurveTo(-20,-148+b,-10,-154+b,0,-152+b);ctx.bezierCurveTo(10,-154+b,20,-148+b,18,-132+b);ctx.fill();
+    // tiara
+    ctx.fillStyle='#FFD700';ctx.fillRect(-14,-148+b,28,5);
+    ctx.beginPath();ctx.moveTo(-14,-148+b);ctx.lineTo(-10,-156+b);ctx.lineTo(-6,-148+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-3,-148+b);ctx.lineTo(0,-158+b);ctx.lineTo(3,-148+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(6,-148+b);ctx.lineTo(10,-156+b);ctx.lineTo(14,-148+b);ctx.fill();
+    ctx.fillStyle='#E83080';ctx.beginPath();ctx.arc(-10,-154+b,2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#A020F0';ctx.beginPath();ctx.arc(0,-156+b,2.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#E83080';ctx.beginPath();ctx.arc(10,-154+b,2,0,Math.PI*2);ctx.fill();
+    // eyes
+    ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(-8,-122+b,4,4.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(8,-122+b,4,4.5,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#3B1200';ctx.beginPath();ctx.arc(-8,-122+b,2.8,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(8,-122+b,2.8,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='white';ctx.beginPath();ctx.arc(-7,-123+b,1,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(9,-123+b,1,0,Math.PI*2);ctx.fill();
+    // lashes
+    ctx.strokeStyle='#3B1200';ctx.lineWidth=1.2;
+    for(let li=-12;li<=12;li+=6){ctx.beginPath();ctx.moveTo(-8+li*0.4,-118+b);ctx.lineTo(-8+li*0.4-1,-114+b);ctx.stroke();}
+    for(let li=-12;li<=12;li+=6){ctx.beginPath();ctx.moveTo(8+li*0.4,-118+b);ctx.lineTo(8+li*0.4-1,-114+b);ctx.stroke();}
+    // blush
+    ctx.fillStyle='rgba(255,150,180,0.4)';ctx.beginPath();ctx.ellipse(-14,-115+b,6,3,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(14,-115+b,6,3,0,0,Math.PI*2);ctx.fill();
+    // smile
+    ctx.strokeStyle='#c0506a';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(-6,-110+b);ctx.quadraticCurveTo(0,-106+b,6,-110+b);ctx.stroke();
+    // dress
+    ctx.fillStyle='#e865a8';ctx.beginPath();ctx.ellipse(0,-90+b,20,38,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-20,-90+b);ctx.bezierCurveTo(-38,-80+b,-40,-60+b,-30,-50+b);ctx.bezierCurveTo(-20,-40+b,-18,-60+b,-18,-70+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(20,-90+b);ctx.bezierCurveTo(38,-80+b,40,-60+b,30,-50+b);ctx.bezierCurveTo(20,-40+b,18,-60+b,18,-70+b);ctx.fill();
+    ctx.fillStyle='#d4006a';ctx.beginPath();ctx.moveTo(-22,-52+b);ctx.bezierCurveTo(-30,0,0,10,22,-52+b);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='#FFD700';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-20,-92+b);ctx.quadraticCurveTo(0,-86+b,20,-92+b);ctx.stroke();
+    // legs
+    ctx.strokeStyle='#d4906a';ctx.lineWidth=6;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-8,32+b);ctx.lineTo(-8,72+b);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(8,32+b);ctx.lineTo(8,72+b);ctx.stroke();
+    // payal
+    ctx.strokeStyle='#C8A060';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(-8,75+b,5,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(8,75+b,5,0,Math.PI*2);ctx.stroke();
+    for(let pi=0;pi<6;pi++){const ang=pi*(Math.PI/3)+t*0.1;ctx.fillStyle='#FFD700';ctx.beginPath();ctx.arc(-8+Math.cos(ang)*5,75+b+Math.sin(ang)*5,1.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(8+Math.cos(ang)*5,75+b+Math.sin(ang)*5,1.5,0,Math.PI*2);ctx.fill();}
+    ctx.restore();
+  }
+
+  function drawBoy(cx,cy,t){
+    ctx.save();ctx.translate(cx,cy);
+    const b=Math.sin(t*0.08+1)*2;
+    ctx.fillStyle='#e8b98a';ctx.beginPath();ctx.ellipse(0,-120+b,22,25,0,0,Math.PI*2);ctx.fill();
+    // hair
+    ctx.strokeStyle='#2C1503';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.arc(0,-136+b,16,Math.PI+0.2,0-0.2);ctx.stroke();
+    ctx.lineWidth=5;ctx.beginPath();ctx.arc(0,-134+b,12,Math.PI+0.4,0-0.4);ctx.stroke();
+    // crown
+    ctx.fillStyle='#FFD700';ctx.fillRect(-14,-148+b,28,6);
+    ctx.beginPath();ctx.moveTo(-14,-148+b);ctx.lineTo(-9,-158+b);ctx.lineTo(-4,-148+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-3,-148+b);ctx.lineTo(0,-162+b);ctx.lineTo(3,-148+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(4,-148+b);ctx.lineTo(9,-158+b);ctx.lineTo(14,-148+b);ctx.fill();
+    ctx.fillStyle='#E83030';ctx.beginPath();ctx.arc(-9,-156+b,2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#3030E8';ctx.beginPath();ctx.arc(0,-160+b,2.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#30A030';ctx.beginPath();ctx.arc(9,-156+b,2,0,Math.PI*2);ctx.fill();
+    // eyes
+    ctx.fillStyle='white';ctx.beginPath();ctx.ellipse(-8,-122+b,4,4.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(8,-122+b,4,4.5,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#2C1503';ctx.beginPath();ctx.arc(-8,-122+b,2.8,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(8,-122+b,2.8,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='white';ctx.beginPath();ctx.arc(-7,-123+b,1,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(9,-123+b,1,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#2C1503';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(-12,-116+b);ctx.quadraticCurveTo(-8,-113+b,-4,-116+b);ctx.stroke();ctx.beginPath();ctx.moveTo(4,-116+b);ctx.quadraticCurveTo(8,-113+b,12,-116+b);ctx.stroke();
+    ctx.fillStyle='rgba(255,160,130,0.4)';ctx.beginPath();ctx.ellipse(-14,-116+b,5,3,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(14,-116+b,5,3,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#a04040';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(-5,-110+b);ctx.quadraticCurveTo(0,-107+b,5,-110+b);ctx.stroke();
+    // shirt
+    ctx.fillStyle='#2a2a9e';ctx.beginPath();ctx.ellipse(0,-88+b,22,42,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.moveTo(-22,-88+b);ctx.bezierCurveTo(-42,-75+b,-44,-55+b,-32,-46+b);ctx.bezierCurveTo(-20,-37+b,-20,-57+b,-20,-70+b);ctx.fill();
+    ctx.beginPath();ctx.moveTo(22,-88+b);ctx.bezierCurveTo(42,-75+b,44,-55+b,32,-46+b);ctx.bezierCurveTo(20,-37+b,20,-57+b,20,-70+b);ctx.fill();
+    ctx.fillStyle='#0f2e70';ctx.beginPath();ctx.moveTo(-22,-48+b);ctx.bezierCurveTo(-26,8,0,14,22,-48+b);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#8B6914';ctx.fillRect(-16,-52+b,32,5);ctx.fillStyle='#FFD700';ctx.fillRect(-3,-54+b,6,9);
+    ctx.strokeStyle='#FFD700';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-20,-90+b);ctx.quadraticCurveTo(0,-84+b,20,-90+b);ctx.stroke();
+    ctx.fillStyle='#e8b98a';ctx.beginPath();ctx.ellipse(-22,5+b,7,24,0.3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(22,5+b,7,24,-0.3,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#8B6040';ctx.lineWidth=6;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-10,38+b);ctx.lineTo(-10,75+b);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(10,38+b);ctx.lineTo(10,75+b);ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawCombPhase(bx,by,gx,gy,t,ph){
+    if(ph<1)return;
+    const prog=Math.min((ph-1)*2,1);
+    const armEndX=gx-20+prog*15;
+    const armEndY=gy-140+Math.sin(t*0.12)*7;
+    ctx.strokeStyle='#8B6040';ctx.lineWidth=5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(bx+22,by-80);ctx.quadraticCurveTo(bx+50+prog*(-30),by-30,armEndX,armEndY+10);ctx.stroke();
+    // comb
+    if(prog>0.3){
+      ctx.fillStyle='#C8A060';ctx.fillRect(armEndX-4,armEndY-10,32,5);
+      ctx.fillStyle='#8B6040';
+      for(let ci=0;ci<7;ci++){ctx.fillRect(armEndX-2+ci*5,armEndY-5+Math.sin(t*0.15+ci)*2,3,12);}
+    }
+    // caption
+    ctx.fillStyle='rgba(255,200,230,0.85)';ctx.font='italic 13px Georgia';ctx.textAlign='center';
+    ctx.fillText('Baal sawaar kar raha hoon, Kannu... 🌸',W/2,H-55);
+  }
+
+  function drawPayalPhase(bx,by,gx,gy,t,ph){
+    if(ph<2)return;
+    const prog=Math.min((ph-2)*2,1);
+    const kneelOffset=prog*35;
+    ctx.strokeStyle='#8B6040';ctx.lineWidth=5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(bx-22,by-80+kneelOffset*0.5);
+    ctx.quadraticCurveTo(bx-50+kneelOffset,by+kneelOffset,gx+12,gy+72);
+    ctx.stroke();
+    if(prog>0.4){
+      const fx=gx+8,fy=gy+74;
+      ctx.strokeStyle='#C8A060';ctx.lineWidth=2.5;
+      ctx.beginPath();ctx.arc(fx,fy,7,0,Math.PI*2);ctx.stroke();
+      ctx.beginPath();ctx.arc(fx+15,fy,7,0,Math.PI*2);ctx.stroke();
+      for(let pi2=0;pi2<8;pi2++){const ang=pi2*(Math.PI/4)+t*0.12;const r=7;ctx.fillStyle='#FFD700';ctx.beginPath();ctx.arc(fx+Math.cos(ang)*r,fy+Math.sin(ang)*r,1.8,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(fx+15+Math.cos(ang)*r,fy+Math.sin(ang)*r,1.8,0,Math.PI*2);ctx.fill();}
+      ctx.fillStyle='rgba(255,200,230,0.85)';ctx.font='italic 13px Georgia';ctx.textAlign='center';
+      ctx.fillText('Payal pehnaa raha hoon... 🪙',W/2,H-55);
+    }
+  }
+
+  function drawFloatingHearts(t){
+    [[190,70,11,0],[330,55,17,28],[145,105,8,55],[385,80,13,14]].forEach(([x,y,s,d])=>{
+      const fy=y+Math.sin((t+d)*0.04)*14;
+      const a=0.45+Math.sin((t+d)*0.05)*0.35;
+      drawHeart(x,fy,s,'#ff2d78',a);
+    });
+  }
+
+  function step(){
+    frame++;
+    if(frame<70)phase=0;
+    else if(frame<200)phase=1+(frame-70)/130;
+    else if(frame<340)phase=2+(frame-200)/140;
+    else phase=3+(frame-340)/120;
+
+    drawBg();
+    drawFloatingHearts(frame);
+
+    const boyX=155,boyY=295,girlX=330,girlY=295;
+    ctx.fillStyle='rgba(255,180,220,0.08)';ctx.beginPath();ctx.ellipse((boyX+girlX)/2,330,115,18,0,0,Math.PI*2);ctx.fill();
+
+    if(phase<1){ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='italic 13px Georgia';ctx.textAlign='center';ctx.fillText('Ek doosre ki duniya... 💕',W/2,H-55);}
+    if(phase>=3){const a=Math.min((phase-3)*1.5,1);ctx.save();ctx.globalAlpha=a;ctx.fillStyle='#FFD700';ctx.font='bold 20px Georgia';ctx.textAlign='center';ctx.fillText('Hamesha Saath Rahunga 💍',W/2,H-28);ctx.restore();}
+
+    drawBoy(boyX,boyY,frame);
+    drawGirl(girlX,girlY,frame);
+    drawCombPhase(boyX,boyY,girlX,girlY,frame,phase);
+    drawPayalPhase(boyX,boyY,girlX,girlY,frame,phase);
+
+    requestAnimationFrame(step);
+  }
+  step();
+}
+</script>
+</body>
+</html>
